@@ -35,11 +35,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.thesidebar1:
-				Intent sidedemo1 = new Intent(MainActivity.this,SideaActivity.class);
+				Intent sidedemo1 = new Intent(MainActivity.this, SideaActivity.class);
 				startActivity(sidedemo1);
 				break;
 			case R.id.thesidebar2:
-				Intent sidedemo2 = new Intent(MainActivity.this,SideActivity.class);
+				Intent sidedemo2 = new Intent(MainActivity.this, SideActivity.class);
 				startActivity(sidedemo2);
 				break;
 		}

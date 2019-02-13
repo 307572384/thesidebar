@@ -1,7 +1,6 @@
 package com.beta.thesidebar;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +26,7 @@ public class ContentAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		if(list!=null)
-		{
+		if (list != null) {
 			return list.size();
 		}
 		return 0;
@@ -36,8 +34,7 @@ public class ContentAdapter extends BaseAdapter {
 
 	@Override
 	public Object getItem(int position) {
-		if(list!=null)
-		{
+		if (list != null) {
 			return list.get(position);
 		}
 		return null;
@@ -52,23 +49,22 @@ public class ContentAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHold hold;
 
-		if(convertView == null)
-		{
+		if (convertView == null) {
 			hold = new ViewHold();
-			convertView = LayoutInflater.from(context).inflate(R.layout.la_listview_leftsider,null);
+			convertView = LayoutInflater.from(context).inflate(R.layout.la_listview_leftsider, null);
 			convertView.setTag(hold);
 
+		} else {
+			hold = (ViewHold) convertView.getTag();
 		}
-		else{
-			hold = (ViewHold)convertView.getTag();
-		}
-		hold.mImageView = (ImageView)convertView.findViewById(R.id.item_imageview);
-		hold.mTextView = (TextView)convertView.findViewById(R.id.item_textview);
+		hold.mImageView = (ImageView) convertView.findViewById(R.id.item_imageview);
+		hold.mTextView = (TextView) convertView.findViewById(R.id.item_textview);
 		hold.mTextView.setText(list.get(position).getText());
 		return convertView;
 	}
-	class ViewHold{
+
+	class ViewHold {
 		public ImageView mImageView;
-		public TextView mTextView;
+		public TextView  mTextView;
 	}
 }

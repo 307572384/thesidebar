@@ -18,8 +18,8 @@ public class SideaActivity extends AppCompatActivity {
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ot_layout_main);
-		btn_back = (ImageView)findViewById(R.id.btn_back);
-		mSlideMenu = (SlideMenu)findViewById(R.id.slideMenu);
+		btn_back = (ImageView) findViewById(R.id.btn_back);
+		mSlideMenu = (SlideMenu) findViewById(R.id.slideMenu);
 		//点击返回键打开或关闭Menu
 		btn_back.setOnClickListener(new View.OnClickListener() {
 			@Override

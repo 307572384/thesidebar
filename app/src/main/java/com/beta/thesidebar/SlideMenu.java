@@ -14,19 +14,23 @@ import android.widget.Scroller;
  */
 
 public class SlideMenu extends FrameLayout {
-	private View menuView,mainView;
+	private View menuView, mainView;
 	private int      menuWidth;
 	private Scroller scroller;
+	//处理屏幕滑动事件
+	private int downX;
+
 	public SlideMenu(Context context) {
 		super(context);
 		init();
 	}
 
-	public SlideMenu(@NonNull Context context, @Nullable AttributeSet attrs ) {
+	public SlideMenu(@NonNull Context context, @Nullable AttributeSet attrs) {
 		super(context, attrs);
 		init();
 	}
-	private void init(){
+
+	private void init() {
 		scroller = new Scroller(getContext());
 	}
 
@@ -41,26 +45,26 @@ public class SlideMenu extends FrameLayout {
 		mainView = getChildAt(1);
 		menuWidth = menuView.getLayoutParams().width;
 	}
+
 	//使Menu也具有滑动功能
-	public boolean onlnterceptTouchEvent(MotionEvent ev)
-	{
-		switch (ev.getAction())
-		{
+	public boolean onlnterceptTouchEvent(MotionEvent ev) {
+		switch (ev.getAction()) {
 			case MotionEvent.ACTION_DOWN:
-				downX = (int)ev.getX();
+				downX = (int) ev.getX();
 				break;
 			case MotionEvent.ACTION_HOVER_MOVE:
-				int deltaX = (int)(ev.getX() - downX);
-				if(Math.abs(deltaX)>8)
-				{
+				int deltaX = (int) (ev.getX() - downX);
+				if (Math.abs(deltaX) > 8) {
 					return true;
 				}
 				break;
 		}
 		return super.onInterceptTouchEvent(ev);
 	}
+
 	/**
 	 * s设置两个子view在页面上的布局
+	 *
 	 * @param left:e当前子view的左边在父view的坐标系的x坐标
 	 * @param right:当前子view的顶边在父view的坐标系的y坐标
 	 * @param bottom:当前子view的宽
@@ -68,34 +72,31 @@ public class SlideMenu extends FrameLayout {
 	 */
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-		menuView.layout(-menuWidth,0,0,bottom);
-		mainView.layout(0,0,right,bottom);
+		menuView.layout(-menuWidth, 0, 0, bottom);
+		mainView.layout(0, 0, right, bottom);
 	}
-	//处理屏幕滑动事件
-	private int downX;
-	public boolean onTouchEvent(MotionEvent event)
-	{
-		switch (event.getAction())
-		{
+
+	public boolean onTouchEvent(MotionEvent event) {
+		switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
-				downX = (int)event.getX();
+				downX = (int) event.getX();
 				break;
-				case MotionEvent.ACTION_MOVE:
-					int moveX = (int)event.getX();
-					int deltaX = moveX - downX;
-					int newScrollX = getScrollX() - deltaX;
-					if(newScrollX < -menuWidth) newScrollX = -menuWidth;
-					if(newScrollX >0) newScrollX =0;
-					scrollTo(newScrollX,0);
-					downX = moveX;
-					break;
+			case MotionEvent.ACTION_MOVE:
+				int moveX = (int) event.getX();
+				int deltaX = moveX - downX;
+				int newScrollX = getScrollX() - deltaX;
+				if (newScrollX < -menuWidth)
+					newScrollX = -menuWidth;
+				if (newScrollX > 0)
+					newScrollX = 0;
+				scrollTo(newScrollX, 0);
+				downX = moveX;
+				break;
 			case MotionEvent.ACTION_UP:
 				//当滑动距离小于menu宽度一半时，平滑滑动到主页面
-				if(getScaleX()>-menuWidth/2)
-				{
+				if (getScaleX() > -menuWidth / 2) {
 					closeMenu();
-				}
-				else {
+				} else {
 					//当滑动距离大于Menu宽度的一半时，平滑滑动到Menu页面
 					openMenu();
 				}
@@ -103,36 +104,40 @@ public class SlideMenu extends FrameLayout {
 		}
 		return true;
 	}
+
 	//关闭menu
-	private void closeMenu(){
-		scroller.startScroll(getScrollX(),0,0-getScrollX(),0,400);
+	private void closeMenu() {
+		scroller.startScroll(getScrollX(), 0, 0 - getScrollX(), 0, 400);
 		invalidate();
 	}
+
 	//打开menu
-	private void openMenu(){
-		scroller.startScroll(getScrollX(),0,-menuWidth-getScrollX(),0,400);
+	private void openMenu() {
+		scroller.startScroll(getScrollX(), 0, -menuWidth - getScrollX(), 0, 400);
 		invalidate();
 	}
+
 	/**
 	 * Scroller不主动去调用这个方法
 	 * 而invalidate()可以调用这个方法
 	 * invalidate->draw->computeScroll
 	 */
-	public void computeScroll(){
+	public void computeScroll() {
 		super.computeScroll();
-		if(scroller.computeScrollOffset()){
+		if (scroller.computeScrollOffset()) {
 			//返回true,表示动画没结束
-			scrollTo(scroller.getCurrX(),0);
+			scrollTo(scroller.getCurrX(), 0);
 			invalidate();
 		}
 	}
+
 	/**
 	 * 切换菜单的开和关
 	 */
-	public void switchMenu(){
-		if(getScrollX()==0){
+	public void switchMenu() {
+		if (getScrollX() == 0) {
 			openMenu();
-		}else {
+		} else {
 			closeMenu();
 		}
 	}

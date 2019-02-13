@@ -5,9 +5,9 @@ package com.beta.thesidebar;
  */
 
 public class ContentModel {
-	private int imageView;
+	private int    imageView;
 	private String text;
-	private int id;
+	private int    id;
 
 	public ContentModel(int imageView, String text, int id) {
 		this.imageView = imageView;
